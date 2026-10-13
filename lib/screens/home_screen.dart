@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _trackingService = DriverTrackingService();
   final _tripService = TripService();
   final _orderService = OrderService();
+  final _mapController = MapController();
 
   static const _defaultCenter = LatLng(0.8286, -77.6413); // Ipiales, Nariño
 
@@ -153,7 +154,13 @@ class _HomeScreenState extends State<HomeScreen> {
         await Geolocator.requestPermission();
       }
       final pos = await Geolocator.getCurrentPosition();
-      setState(() => _currentPosition = LatLng(pos.latitude, pos.longitude));
+      final here = LatLng(pos.latitude, pos.longitude);
+      setState(() => _currentPosition = here);
+      // initialCenter del mapa solo se usa al construirlo: hay que mover la
+      // camara cuando llega el GPS real.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _mapController.move(here, 15);
+      });
     } catch (_) {
       setState(() => _currentPosition = _defaultCenter);
     }
@@ -450,6 +457,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           FlutterMap(
+            mapController: _mapController,
             options: MapOptions(initialCenter: center, initialZoom: 15),
             children: [
               ValueListenableBuilder<bool>(
