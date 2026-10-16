@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'theme/app_theme.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'services/auth_service.dart';
 import 'screens/login_screen.dart';
@@ -44,11 +45,7 @@ class TaxiConductorApp extends StatelessWidget {
     return MaterialApp(
       title: 'Bipy Conductor',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-        scaffoldBackgroundColor: const Color(0xFF0F1B2B),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.theme(),
       home: const _StartupGate(),
     );
   }
@@ -140,7 +137,7 @@ class _StartupGateState extends State<_StartupGate> with WidgetsBindingObserver 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Tu sesión expiró. Inicia sesión de nuevo.'),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: AppTheme.danger,
         ),
       );
     }
@@ -150,8 +147,8 @@ class _StartupGateState extends State<_StartupGate> with WidgetsBindingObserver 
   Widget build(BuildContext context) {
     if (_checking) {
       return const Scaffold(
-        backgroundColor: Color(0xFF0F1B2B),
-        body: Center(child: CircularProgressIndicator(color: Colors.amber)),
+        backgroundColor: AppTheme.navyDeep,
+        body: Center(child: CircularProgressIndicator(color: AppTheme.yellow)),
       );
     }
     return _loggedIn ? const HomeScreen() : const LoginScreen();

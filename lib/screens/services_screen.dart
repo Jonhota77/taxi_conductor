@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
 import '../services/services_service.dart';
 
@@ -82,14 +83,14 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1B2B),
+      backgroundColor: AppTheme.navyDeep,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text("Mis servicios", style: TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: Colors.amber))
+          ? const Center(child: CircularProgressIndicator(color: AppTheme.yellow))
           : Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -110,20 +111,20 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   ],
                   if (_error != null) ...[
                     const SizedBox(height: 12),
-                    Text(_error!, style: const TextStyle(color: Colors.redAccent, fontSize: 13)),
+                    Text(_error!, style: const TextStyle(color: AppTheme.dangerOnDark, fontSize: 13)),
                   ],
                   const SizedBox(height: 20),
                   if (_allowed.isNotEmpty)
                     ElevatedButton(
                       onPressed: _saving ? null : _save,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
+                        backgroundColor: AppTheme.yellow,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       child: _saving
-                          ? const CircularProgressIndicator(color: Colors.black)
-                          : const Text("Guardar", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                          ? const CircularProgressIndicator(color: AppTheme.navy)
+                          : const Text("Guardar", style: TextStyle(color: AppTheme.navy, fontWeight: FontWeight.bold)),
                     ),
                 ],
               ),
@@ -136,9 +137,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: selected ? Colors.amber.withOpacity(0.12) : Colors.white10,
+        color: selected ? AppTheme.yellow.withOpacity(0.12) : AppTheme.navySurface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: selected ? Colors.amber : Colors.transparent),
+        border: Border.all(color: selected ? AppTheme.yellow : Colors.transparent),
       ),
       child: CheckboxListTile(
         value: selected,
@@ -151,10 +152,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
             }
           });
         },
-        activeColor: Colors.amber,
-        checkColor: Colors.black,
+        activeColor: AppTheme.yellow,
+        checkColor: AppTheme.navy,
         title: Text(_labels[service] ?? service, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        subtitle: Text(_descriptions[service] ?? "", style: const TextStyle(color: Colors.white54, fontSize: 12)),
+        subtitle: Text(_descriptions[service] ?? "", style: const TextStyle(color: AppTheme.textMutedOnDark, fontSize: 12)),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
 import '../services/vehicle_service.dart';
 
@@ -98,13 +99,13 @@ class _VehicleScreenState extends State<VehicleScreen> {
   Widget build(BuildContext context) {
     if (_loadingExisting) {
       return const Scaffold(
-        backgroundColor: Color(0xFF0F1B2B),
-        body: Center(child: CircularProgressIndicator(color: Colors.amber)),
+        backgroundColor: AppTheme.navyDeep,
+        body: Center(child: CircularProgressIndicator(color: AppTheme.yellow)),
       );
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1B2B),
+      backgroundColor: AppTheme.navyDeep,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text("Mi vehículo", style: TextStyle(color: Colors.white)),
@@ -137,7 +138,7 @@ class _VehicleScreenState extends State<VehicleScreen> {
                   groupValue: _vehicleType,
                   onChanged: (v) => setState(() => _vehicleType = v!),
                   title: Text(e.value, style: const TextStyle(color: Colors.white)),
-                  activeColor: Colors.amber,
+                  activeColor: AppTheme.yellow,
                   dense: true,
                 )),
             const SizedBox(height: 20),
@@ -147,26 +148,26 @@ class _VehicleScreenState extends State<VehicleScreen> {
             const SizedBox(height: 4),
             const Text(
               "Si los dejas vacíos, el pasajero solo verá la opción de pagar en efectivo.",
-              style: TextStyle(color: Colors.white38, fontSize: 12),
+              style: TextStyle(color: AppTheme.textMutedOnDark, fontSize: 12),
             ),
             const SizedBox(height: 12),
             _field(_nequiController, "Número de Nequi (opcional)", type: TextInputType.phone),
             const SizedBox(height: 12),
             _field(_daviplataController, "Número de Daviplata (opcional)", type: TextInputType.phone),
             const SizedBox(height: 16),
-            if (_error != null) Text(_error!, style: const TextStyle(color: Colors.redAccent)),
-            if (_success != null) Text(_success!, style: const TextStyle(color: Colors.greenAccent)),
+            if (_error != null) Text(_error!, style: const TextStyle(color: AppTheme.dangerOnDark)),
+            if (_success != null) Text(_success!, style: const TextStyle(color: AppTheme.successOnDark)),
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: _loading ? null : _save,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.amber,
+                backgroundColor: AppTheme.yellow,
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
               ),
               child: _loading
-                  ? const CircularProgressIndicator(color: Colors.black)
-                  : const Text("Guardar vehículo", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  ? const CircularProgressIndicator(color: AppTheme.navy)
+                  : const Text("Guardar vehículo", style: TextStyle(color: AppTheme.navy, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -181,10 +182,12 @@ class _VehicleScreenState extends State<VehicleScreen> {
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.white54),
+        labelStyle: const TextStyle(color: AppTheme.textMutedOnDark),
         filled: true,
-        fillColor: Colors.white10,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+        fillColor: AppTheme.navySurface,
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFF223B66))),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: AppTheme.yellow, width: 2)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
       ),
     );
   }

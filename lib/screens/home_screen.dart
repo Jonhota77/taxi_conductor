@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
         context: context,
         barrierDismissible: false,
         builder: (_) => AlertDialog(
-          backgroundColor: const Color(0xFF16233A),
+          backgroundColor: AppTheme.navySurface,
           title: const Text("Activa tu ubicacion", style: TextStyle(color: Colors.white)),
           content: const Text(
             "Necesitas tener el GPS activado para poder conectarte y recibir carreras.",
@@ -100,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 await Geolocator.openLocationSettings();
                 if (context.mounted) Navigator.of(context).pop();
               },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.success),
               child: const Text("Activar", style: TextStyle(color: Colors.white)),
             ),
           ],
@@ -289,10 +290,10 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
-        backgroundColor: const Color(0xFF16233A),
+        backgroundColor: AppTheme.navySurface,
         title: const Row(
           children: [
-            Icon(Icons.campaign, color: Colors.amber),
+            Icon(Icons.campaign, color: AppTheme.yellow),
             SizedBox(width: 10),
             Text("Aviso de Secretaría", style: TextStyle(color: Colors.white, fontSize: 16)),
           ],
@@ -301,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Entendido", style: TextStyle(color: Colors.amber)),
+            child: const Text("Entendido", style: TextStyle(color: AppTheme.yellow)),
           ),
         ],
       ),
@@ -493,7 +494,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       point: _currentPosition!,
                       width: 40,
                       height: 40,
-                      child: const Icon(Icons.directions_car, color: Colors.blue, size: 32),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppTheme.navy,
+                          shape: BoxShape.circle,
+                          border: Border.fromBorderSide(BorderSide(color: Colors.white, width: 2)),
+                          boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 6)],
+                        ),
+                        child: const Icon(Icons.directions_car, color: AppTheme.yellow, size: 22),
+                      ),
                     ),
                   // NUEVO: un punto naranja por cada solicitud pendiente
                   // (puede haber mas de una a la vez).
@@ -504,7 +513,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       point: point,
                       width: 44,
                       height: 44,
-                      child: const Icon(Icons.person_pin_circle, color: Colors.orange, size: 40),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppTheme.yellow,
+                          shape: BoxShape.circle,
+                          border: Border.fromBorderSide(BorderSide(color: AppTheme.navy, width: 3)),
+                          boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 6)],
+                        ),
+                        child: const Icon(Icons.person, color: AppTheme.navy, size: 24),
+                      ),
                     );
                   }).whereType<Marker>(),
                 ],
@@ -520,9 +537,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: Material(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    elevation: 3,
+                    shadowColor: Colors.black45,
+                    borderRadius: BorderRadius.circular(14),
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(14),
                       onTap: () async {
                         await Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => const WalletScreen()),
@@ -542,13 +561,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: _wallet!["low_balance"] == true ? Colors.red.withOpacity(0.15) : Colors.green.withOpacity(0.15),
+                                  color: _wallet!["low_balance"] == true ? AppTheme.danger.withOpacity(0.15) : AppTheme.success.withOpacity(0.15),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
                                   "\$${(_wallet!["balance"] as num).toStringAsFixed(0)}",
                                   style: TextStyle(
-                                    color: _wallet!["low_balance"] == true ? Colors.red : Colors.green[800],
+                                    color: _wallet!["low_balance"] == true ? AppTheme.danger : AppTheme.success,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
                                   ),
@@ -562,9 +581,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                  decoration: AppTheme.floating,
                   child: IconButton(
-                    icon: const Icon(Icons.description_outlined),
+                    icon: const Icon(Icons.description_outlined, color: AppTheme.navy),
                     tooltip: "Mis documentos",
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const DocumentsScreen()),
@@ -572,10 +591,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                  decoration: AppTheme.floating,
                   margin: const EdgeInsets.only(left: 8),
                   child: IconButton(
-                    icon: const Icon(Icons.directions_car),
+                    icon: const Icon(Icons.directions_car, color: AppTheme.navy),
                     tooltip: "Mi vehículo",
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const VehicleScreen()),
@@ -583,10 +602,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                  decoration: AppTheme.floating,
                   margin: const EdgeInsets.only(left: 8),
                   child: IconButton(
-                    icon: const Icon(Icons.tune),
+                    icon: const Icon(Icons.tune, color: AppTheme.navy),
                     tooltip: "Mis servicios",
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const ServicesScreen()),
@@ -594,10 +613,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                  decoration: AppTheme.floating,
                   margin: const EdgeInsets.only(left: 8),
                   child: IconButton(
-                    icon: const Icon(Icons.bar_chart),
+                    icon: const Icon(Icons.bar_chart, color: AppTheme.navy),
                     tooltip: "Mis estadisticas",
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const StatsScreen()),
@@ -605,12 +624,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                  decoration: AppTheme.floating,
                   margin: const EdgeInsets.only(left: 8),
                   child: ValueListenableBuilder<bool>(
                     valueListenable: MapTheme.isDark,
                     builder: (context, isDark, _) => IconButton(
-                      icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
+                      icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode, color: AppTheme.navy),
                       tooltip: isDark ? "Mapa claro" : "Mapa oscuro",
                       onPressed: MapTheme.toggle,
                     ),
@@ -642,9 +661,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ElevatedButton(
               onPressed: (_connecting || _hasActiveWork) ? null : _toggleOnline,
               style: ElevatedButton.styleFrom(
-                backgroundColor: _isOnline ? Colors.redAccent : Colors.green,
-                padding: const EdgeInsets.symmetric(vertical: 18),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                backgroundColor: _isOnline ? AppTheme.danger : AppTheme.success,
+                disabledBackgroundColor: AppTheme.navySurface,
+                disabledForegroundColor: AppTheme.textMutedOnDark,
+                minimumSize: const Size.fromHeight(60),
+                elevation: 6,
               ),
               child: Text(
                 _hasActiveWork
@@ -661,7 +682,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _resumeBanner(String text, VoidCallback onTap) {
     return Material(
-      color: Colors.amber,
+      color: AppTheme.yellow,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
@@ -670,10 +691,10 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: Row(
             children: [
-              const Icon(Icons.directions_car, color: Colors.black),
+              const Icon(Icons.directions_car, color: AppTheme.navy),
               const SizedBox(width: 10),
-              Expanded(child: Text(text, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 13))),
-              const Icon(Icons.chevron_right, color: Colors.black),
+              Expanded(child: Text(text, style: const TextStyle(color: AppTheme.navy, fontWeight: FontWeight.bold, fontSize: 13))),
+              const Icon(Icons.chevron_right, color: AppTheme.navy),
             ],
           ),
         ),
@@ -689,7 +710,7 @@ class _HomeScreenState extends State<HomeScreen> {
       right: 20,
       child: Card(
         elevation: 8,
-        color: Colors.blueGrey[900],
+        color: AppTheme.navySurface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -698,18 +719,18 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const Row(
                 children: [
-                  SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.amber)),
+                  SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.yellow)),
                   SizedBox(width: 10),
                   Text("Esperando respuesta del cliente...", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(height: 8),
               if (proposed != null)
-                Text("Le propusiste: \$${proposed.toString()} COP", style: const TextStyle(color: Colors.amber)),
+                Text("Le propusiste: \$${proposed.toString()} COP", style: const TextStyle(color: AppTheme.yellow)),
               const SizedBox(height: 4),
               const Text(
                 "Si acepta, este viaje/pedido pasa a ser tuyo automáticamente.",
-                style: TextStyle(color: Colors.white54, fontSize: 12),
+                style: TextStyle(color: AppTheme.textMutedOnDark, fontSize: 12),
               ),
             ],
           ),
@@ -746,8 +767,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final id = _requestId(req);
 
     return Card(
-      elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -762,8 +783,8 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 6),
-            const Text("📍 El punto naranja en el mapa es donde recoger",
-                style: TextStyle(fontSize: 11, color: Colors.black54)),
+            const Text("📍 El punto amarillo en el mapa es donde recoger",
+                style: TextStyle(fontSize: 11, color: AppTheme.textMuted)),
             const SizedBox(height: 6),
             if (isOrder) ...[
               if (req["item_description"] != null) Text("Descripción: ${req["item_description"]}"),
@@ -777,10 +798,10 @@ class _HomeScreenState extends State<HomeScreen> {
             if (offeredPrice != null)
               Text(
                 "💰 El cliente ofrece: \$${offeredPrice.toString()} COP",
-                style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+                style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.success),
               )
             else
-              const Text("El cliente no propuso un precio", style: TextStyle(color: Colors.black54, fontSize: 12)),
+              const Text("El cliente no propuso un precio", style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
             const SizedBox(height: 10),
             TextField(
               controller: _controllerFor(id),
@@ -789,7 +810,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 labelText: "¿No estás de acuerdo? Pon tu precio aquí",
                 hintText: "Déjalo vacío para aceptar el precio ofrecido",
                 isDense: true,
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
             const SizedBox(height: 10),
@@ -804,7 +825,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                    style: ElevatedButton.styleFrom(backgroundColor: AppTheme.success),
                     onPressed: () => _acceptRequest(req),
                     child: const Text("Aceptar", style: TextStyle(color: Colors.white)),
                   ),

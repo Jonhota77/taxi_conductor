@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
 import '../services/stats_service.dart';
 
@@ -37,14 +38,14 @@ class _StatsScreenState extends State<StatsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1B2B),
+      backgroundColor: AppTheme.navyDeep,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text("Mis estadisticas", style: TextStyle(color: Colors.white)),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: Colors.amber))
+          ? const Center(child: CircularProgressIndicator(color: AppTheme.yellow))
           : RefreshIndicator(
               onRefresh: _load,
               child: ListView(
@@ -52,17 +53,17 @@ class _StatsScreenState extends State<StatsScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(16)),
+                    decoration: BoxDecoration(color: AppTheme.navySurface, borderRadius: BorderRadius.circular(16)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 28),
+                        const Icon(Icons.star, color: AppTheme.yellow, size: 28),
                         const SizedBox(width: 8),
                         Text(
                           "${(_stats?["rating_avg"] as num?)?.toStringAsFixed(1) ?? "5.0"}",
                           style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        const Text(" / 5.0", style: TextStyle(color: Colors.white54, fontSize: 14)),
+                        const Text(" / 5.0", style: TextStyle(color: AppTheme.textMutedOnDark, fontSize: 14)),
                       ],
                     ),
                   ),
@@ -85,7 +86,7 @@ class _StatsScreenState extends State<StatsScreen> {
 
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(14)),
+      decoration: BoxDecoration(color: AppTheme.navySurface, borderRadius: BorderRadius.circular(14)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -107,10 +108,10 @@ class _StatsScreenState extends State<StatsScreen> {
   Widget _statItem(IconData icon, String value, String label) {
     return Column(
       children: [
-        Icon(icon, color: Colors.amber, size: 20),
+        Icon(icon, color: AppTheme.yellow, size: 20),
         const SizedBox(height: 4),
         Text(value, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15)),
-        Text(label, style: const TextStyle(color: Colors.white54, fontSize: 11)),
+        Text(label, style: const TextStyle(color: AppTheme.textMutedOnDark, fontSize: 11)),
       ],
     );
   }

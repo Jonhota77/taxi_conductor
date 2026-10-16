@@ -35,6 +35,16 @@ flutter:
   assets:
     - assets/images/logo_bipy.png
     - assets/icon/app_icon.png
+  fonts:
+    - family: Barlow
+      fonts:
+        - asset: assets/fonts/Barlow-Regular.ttf
+        - asset: assets/fonts/Barlow-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Barlow-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Barlow-Bold.ttf
+          weight: 700
 
 # NUEVO: genera automaticamente el icono de la app para Android (todos los
 # tamanos que se necesitan) a partir de esta sola imagen.

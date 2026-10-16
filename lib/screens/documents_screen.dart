@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import 'package:image_picker/image_picker.dart';
 import '../services/auth_service.dart';
 import '../services/document_service.dart';
@@ -57,7 +58,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1B2B),
+      backgroundColor: AppTheme.navyDeep,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text("Documentos", style: TextStyle(color: Colors.white)),
@@ -80,16 +81,16 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
               final isDone = _uploaded.contains(docType);
 
               return Card(
-                color: Colors.white10,
+                color: AppTheme.navySurface,
                 margin: const EdgeInsets.only(bottom: 12),
                 child: ListTile(
                   title: Text(label, style: const TextStyle(color: Colors.white)),
                   trailing: isUploading
-                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.amber))
+                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.yellow))
                       : isDone
-                          ? const Icon(Icons.check_circle, color: Colors.greenAccent)
+                          ? const Icon(Icons.check_circle, color: AppTheme.successOnDark)
                           : IconButton(
-                              icon: const Icon(Icons.upload_file, color: Colors.amber),
+                              icon: const Icon(Icons.upload_file, color: AppTheme.yellow),
                               onPressed: () => _pickAndUpload(docType),
                             ),
                   onTap: isUploading ? null : () => _pickAndUpload(docType),

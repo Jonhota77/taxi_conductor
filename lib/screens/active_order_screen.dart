@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -116,7 +117,7 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
         : CameraFit.coordinates(coordinates: [pickup ?? const LatLng(0.8286, -77.6413)], padding: const EdgeInsets.all(40), maxZoom: 15);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1B2B),
+      backgroundColor: AppTheme.navyDeep,
       body: SafeArea(
         child: Column(
           children: [
@@ -148,9 +149,9 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
                           },
                         ),
                         MarkerLayer(markers: [
-                          Marker(point: pickup, width: 40, height: 40, child: const Icon(Icons.person_pin_circle, color: Colors.blue, size: 34)),
+                          Marker(point: pickup, width: 40, height: 40, child: const Icon(Icons.person_pin_circle, color: AppTheme.navy, size: 38)),
                           if (destination != null)
-                            Marker(point: destination, width: 36, height: 36, child: const Icon(Icons.location_on, color: Colors.red, size: 32)),
+                            Marker(point: destination, width: 36, height: 36, child: const Icon(Icons.location_on, color: AppTheme.danger, size: 36)),
                         ]),
                       ],
                     ),
@@ -164,7 +165,7 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
                           shape: const CircleBorder(),
                           elevation: 3,
                           child: IconButton(
-                            icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode, size: 18, color: const Color(0xFF0F1B2B)),
+                            icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode, size: 18, color: AppTheme.navyDeep),
                             tooltip: isDark ? "Mapa claro" : "Mapa oscuro",
                             onPressed: MapTheme.toggle,
                             padding: const EdgeInsets.all(6),
@@ -179,7 +180,7 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
             if (pickup != null)
               Container(
                 width: double.infinity,
-                color: Colors.blue.withOpacity(0.15),
+                color: AppTheme.navySurface,
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 child: const Text(
                   "📍 Azul = recoger aqui   🔴 Rojo = entregar aqui",
@@ -195,9 +196,9 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
                   children: [
                     Row(
                       children: [
-                        Icon(_status == "picked_up" ? Icons.navigation : Icons.local_shipping, color: Colors.amber, size: 32),
+                        Icon(_status == "picked_up" ? Icons.navigation : Icons.local_shipping, color: AppTheme.yellow, size: 32),
                         const SizedBox(width: 10),
-                        Text(serviceLabel, style: const TextStyle(color: Colors.white54, fontSize: 13)),
+                        Text(serviceLabel, style: const TextStyle(color: AppTheme.textMutedOnDark, fontSize: 13)),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -211,7 +212,7 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
                         icon: const Icon(Icons.call, color: Colors.white),
                         label: const Text("Llamar al cliente", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+                          backgroundColor: AppTheme.info,
                           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
@@ -223,32 +224,32 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
                     if (_status == "accepted") ...[
                       ElevatedButton(
                         onPressed: _loading ? null : _markPickedUp,
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green, padding: const EdgeInsets.symmetric(vertical: 16)),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppTheme.success, padding: const EdgeInsets.symmetric(vertical: 16)),
                         child: const Text("Ya recogi el pedido", style: TextStyle(color: Colors.white)),
                       ),
                       const SizedBox(height: 12),
                       OutlinedButton(
                         onPressed: _loading ? null : _cancel,
-                        child: const Text("Cancelar", style: TextStyle(color: Colors.redAccent)),
+                        child: const Text("Cancelar", style: TextStyle(color: AppTheme.dangerOnDark)),
                       ),
                     ],
                     if (_status == "picked_up")
                       ElevatedButton(
                         onPressed: _loading ? null : _complete,
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.amber, padding: const EdgeInsets.symmetric(vertical: 16)),
-                        child: const Text("Marcar como entregado", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppTheme.yellow, padding: const EdgeInsets.symmetric(vertical: 16)),
+                        child: const Text("Marcar como entregado", style: TextStyle(color: AppTheme.navy, fontWeight: FontWeight.bold)),
                       ),
                     if (_status == "completed") ...[
                       if (price != null)
                         Center(
                           child: Text("Total: \$${price.toString()} COP",
-                              style: const TextStyle(color: Colors.amber, fontSize: 20, fontWeight: FontWeight.bold)),
+                              style: const TextStyle(color: AppTheme.yellow, fontSize: 20, fontWeight: FontWeight.bold)),
                         ),
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () => Navigator.of(context).popUntil((r) => r.isFirst),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-                        child: const Text("Volver al mapa", style: TextStyle(color: Colors.black)),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppTheme.yellow),
+                        child: const Text("Volver al mapa", style: TextStyle(color: AppTheme.navy)),
                       ),
                     ],
                   ],
@@ -265,7 +266,7 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
     final o = widget.order;
     return Container(
       padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(color: AppTheme.navySurface, borderRadius: BorderRadius.circular(12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -288,7 +289,7 @@ class _ActiveOrderScreenState extends State<ActiveOrderScreen> {
         text: TextSpan(
           style: const TextStyle(fontSize: 13, color: Colors.white),
           children: [
-            TextSpan(text: "$label: ", style: const TextStyle(color: Colors.white54)),
+            TextSpan(text: "$label: ", style: const TextStyle(color: AppTheme.textMutedOnDark)),
             TextSpan(text: value, style: const TextStyle(fontWeight: FontWeight.w600)),
           ],
         ),

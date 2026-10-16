@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -135,7 +136,7 @@ class _ActiveTripScreenState extends State<ActiveTripScreen> {
     final isExpanded = _panelExpanded || forceExpanded;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1B2B),
+      backgroundColor: AppTheme.navyDeep,
       body: Stack(
         children: [
           // El mapa ocupa TODA la pantalla de fondo (~80%+ visible, ya que
@@ -170,21 +171,21 @@ class _ActiveTripScreenState extends State<ActiveTripScreen> {
                         point: origin,
                         width: 44,
                         height: 44,
-                        child: const Icon(Icons.person_pin_circle, color: Colors.blue, size: 36),
+                        child: const Icon(Icons.person_pin_circle, color: AppTheme.navy, size: 40),
                       ),
                     if (destination != null)
                       Marker(
                         point: destination,
                         width: 40,
                         height: 40,
-                        child: const Icon(Icons.location_on, color: Colors.red, size: 36),
+                        child: const Icon(Icons.location_on, color: AppTheme.danger, size: 40),
                       ),
                   ]),
                 ],
               ),
             )
           else
-            const Center(child: CircularProgressIndicator(color: Colors.amber)),
+            const Center(child: CircularProgressIndicator(color: AppTheme.yellow)),
 
           // Botón de modo oscuro del mapa, flotando arriba a la izquierda.
           if (hasMap)
@@ -199,7 +200,7 @@ class _ActiveTripScreenState extends State<ActiveTripScreen> {
                     shape: const CircleBorder(),
                     elevation: 3,
                     child: IconButton(
-                      icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode, size: 20, color: const Color(0xFF0F1B2B)),
+                      icon: Icon(isDark ? Icons.light_mode : Icons.dark_mode, size: 20, color: AppTheme.navyDeep),
                       tooltip: isDark ? "Mapa claro" : "Mapa oscuro",
                       onPressed: MapTheme.toggle,
                     ),
@@ -219,13 +220,13 @@ class _ActiveTripScreenState extends State<ActiveTripScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(14),
                     boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 6)],
                   ),
                   child: const Text(
                     "📍 Azul = recoger  🔴 Rojo = destino",
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0xFF0F1B2B), fontSize: 11, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: AppTheme.navyDeep, fontSize: 12, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -241,7 +242,7 @@ class _ActiveTripScreenState extends State<ActiveTripScreen> {
               curve: Curves.easeOut,
               height: isExpanded ? screenHeight * 0.42 : 100,
               decoration: const BoxDecoration(
-                color: Color(0xFF0F1B2B),
+                color: AppTheme.navyDeep,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [BoxShadow(color: Colors.black45, blurRadius: 12)],
               ),
@@ -260,12 +261,12 @@ class _ActiveTripScreenState extends State<ActiveTripScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(_iconFor(_status), color: Colors.amber, size: 20),
+                              Icon(_iconFor(_status), color: AppTheme.yellow, size: 20),
                               const SizedBox(width: 8),
                               Text(_labelFor(_status), style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
                               if (!forceExpanded) ...[
                                 const SizedBox(width: 6),
-                                Icon(isExpanded ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up, color: Colors.white54, size: 20),
+                                Icon(isExpanded ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_up, color: AppTheme.textMutedOnDark, size: 20),
                               ],
                             ],
                           ),
@@ -285,7 +286,7 @@ class _ActiveTripScreenState extends State<ActiveTripScreen> {
                                 icon: const Icon(Icons.call, color: Colors.white),
                                 label: const Text("Llamar al pasajero", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
+                                  backgroundColor: AppTheme.info,
                                   minimumSize: const Size.fromHeight(48),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                 ),
@@ -295,31 +296,31 @@ class _ActiveTripScreenState extends State<ActiveTripScreen> {
                             if (_status == "accepted") ...[
                               ElevatedButton(
                                 onPressed: _loading ? null : _startTrip,
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.green, minimumSize: const Size.fromHeight(48)),
+                                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.success, minimumSize: const Size.fromHeight(48)),
                                 child: const Text("Iniciar viaje", style: TextStyle(color: Colors.white)),
                               ),
                               const SizedBox(height: 12),
                               OutlinedButton(
                                 onPressed: _loading ? null : _cancelTrip,
                                 style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(44)),
-                                child: const Text("Cancelar viaje", style: TextStyle(color: Colors.redAccent)),
+                                child: const Text("Cancelar viaje", style: TextStyle(color: AppTheme.dangerOnDark)),
                               ),
                             ],
                             if (_status == "in_progress")
                               ElevatedButton(
                                 onPressed: _loading ? null : _completeTrip,
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.amber, minimumSize: const Size.fromHeight(48)),
-                                child: const Text("Completar viaje", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.yellow, minimumSize: const Size.fromHeight(48)),
+                                child: const Text("Completar viaje", style: TextStyle(color: AppTheme.navy, fontWeight: FontWeight.bold)),
                               ),
                             if (_status == "completed") ...[
                               if (_finalPrice != null)
                                 Text("Total cobrado: \$${_finalPrice!.toStringAsFixed(0)} COP",
-                                    style: const TextStyle(color: Colors.amber, fontSize: 20, fontWeight: FontWeight.bold)),
+                                    style: const TextStyle(color: AppTheme.yellow, fontSize: 20, fontWeight: FontWeight.bold)),
                               const SizedBox(height: 16),
                               ElevatedButton(
                                 onPressed: () => Navigator.of(context).popUntil((r) => r.isFirst),
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.amber, minimumSize: const Size.fromHeight(48)),
-                                child: const Text("Volver al mapa", style: TextStyle(color: Colors.black)),
+                                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.yellow, minimumSize: const Size.fromHeight(48)),
+                                child: const Text("Volver al mapa", style: TextStyle(color: AppTheme.navy)),
                               ),
                             ],
                           ],

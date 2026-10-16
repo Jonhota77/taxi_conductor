@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../services/update_service.dart';
 
 // Muestra el dialogo de actualizacion disponible. Si info.forceUpdate es
@@ -17,7 +18,7 @@ Future<void> showUpdateDialog(BuildContext context, AppVersionInfo info) async {
           return PopScope(
             canPop: !info.forceUpdate,
             child: AlertDialog(
-              backgroundColor: const Color(0xFF0F1B2B),
+              backgroundColor: AppTheme.navyDeep,
               title: const Text(
                 "Nueva version disponible",
                 style: TextStyle(color: Colors.white),
@@ -28,7 +29,7 @@ Future<void> showUpdateDialog(BuildContext context, AppVersionInfo info) async {
                 children: [
                   Text(
                     "Version ${info.versionName}",
-                    style: const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
+                    style: const TextStyle(color: AppTheme.yellow, fontWeight: FontWeight.bold),
                   ),
                   if (info.changelog != null && info.changelog!.isNotEmpty) ...[
                     const SizedBox(height: 8),
@@ -40,7 +41,7 @@ Future<void> showUpdateDialog(BuildContext context, AppVersionInfo info) async {
                     const SizedBox(height: 8),
                     Text(
                       progress > 0 ? "${(progress * 100).toStringAsFixed(0)}%" : "Descargando...",
-                      style: const TextStyle(color: Colors.white54, fontSize: 12),
+                      style: const TextStyle(color: AppTheme.textMutedOnDark, fontSize: 12),
                     ),
                   ],
                 ],
@@ -51,10 +52,10 @@ Future<void> showUpdateDialog(BuildContext context, AppVersionInfo info) async {
                       if (!info.forceUpdate)
                         TextButton(
                           onPressed: () => Navigator.of(dialogContext).pop(),
-                          child: const Text("Mas tarde", style: TextStyle(color: Colors.white54)),
+                          child: const Text("Mas tarde", style: TextStyle(color: AppTheme.textMutedOnDark)),
                         ),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
+                        style: ElevatedButton.styleFrom(backgroundColor: AppTheme.yellow),
                         onPressed: () async {
                           setState(() => downloading = true);
                           try {
@@ -71,7 +72,7 @@ Future<void> showUpdateDialog(BuildContext context, AppVersionInfo info) async {
                             }
                           }
                         },
-                        child: const Text("Actualizar", style: TextStyle(color: Colors.black)),
+                        child: const Text("Actualizar", style: TextStyle(color: AppTheme.navy)),
                       ),
                     ],
             ),

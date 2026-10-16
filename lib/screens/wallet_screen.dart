@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../services/auth_service.dart';
 import '../services/wallet_service.dart';
 
@@ -41,8 +42,8 @@ class _WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     if (_loading) {
       return const Scaffold(
-        backgroundColor: Color(0xFF0F1B2B),
-        body: Center(child: CircularProgressIndicator(color: Colors.amber)),
+        backgroundColor: AppTheme.navyDeep,
+        body: Center(child: CircularProgressIndicator(color: AppTheme.yellow)),
       );
     }
 
@@ -53,7 +54,7 @@ class _WalletScreenState extends State<WalletScreen> {
     final daviplata = _wallet?["company_daviplata_number"];
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0F1B2B),
+      backgroundColor: AppTheme.navyDeep,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text("Mi saldo", style: TextStyle(color: Colors.white)),
@@ -67,9 +68,9 @@ class _WalletScreenState extends State<WalletScreen> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: lowBalance ? Colors.red.withOpacity(0.15) : Colors.white10,
+                color: lowBalance ? AppTheme.danger.withOpacity(0.15) : AppTheme.navySurface,
                 borderRadius: BorderRadius.circular(16),
-                border: lowBalance ? Border.all(color: Colors.redAccent) : null,
+                border: lowBalance ? Border.all(color: AppTheme.dangerOnDark) : null,
               ),
               child: Column(
                 children: [
@@ -78,7 +79,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   Text(
                     "\$${balance.toStringAsFixed(0)} COP",
                     style: TextStyle(
-                      color: lowBalance ? Colors.redAccent : Colors.amber,
+                      color: lowBalance ? AppTheme.dangerOnDark : AppTheme.yellow,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
@@ -86,14 +87,14 @@ class _WalletScreenState extends State<WalletScreen> {
                   const SizedBox(height: 8),
                   Text(
                     "Cada carrera de taxi urbano descuenta \$${fee.toStringAsFixed(0)}",
-                    style: const TextStyle(color: Colors.white54, fontSize: 12),
+                    style: const TextStyle(color: AppTheme.textMutedOnDark, fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                   if (lowBalance) ...[
                     const SizedBox(height: 12),
                     const Text(
                       "⚠️ Saldo insuficiente. No podras aceptar carreras de taxi hasta recargar.",
-                      style: TextStyle(color: Colors.redAccent, fontSize: 13, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: AppTheme.dangerOnDark, fontSize: 13, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -103,7 +104,7 @@ class _WalletScreenState extends State<WalletScreen> {
             const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(color: AppTheme.navySurface, borderRadius: BorderRadius.circular(12)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -115,11 +116,11 @@ class _WalletScreenState extends State<WalletScreen> {
                   ),
                   const SizedBox(height: 14),
                   if (nequi != null && nequi.toString().isNotEmpty) _accountRow("Nequi", nequi.toString(), Colors.pinkAccent),
-                  if (daviplata != null && daviplata.toString().isNotEmpty) _accountRow("Daviplata", daviplata.toString(), Colors.redAccent),
+                  if (daviplata != null && daviplata.toString().isNotEmpty) _accountRow("Daviplata", daviplata.toString(), AppTheme.dangerOnDark),
                   if ((nequi == null || nequi.toString().isEmpty) && (daviplata == null || daviplata.toString().isEmpty))
                     const Text(
                       "La empresa aun no ha configurado sus cuentas de recarga. Contacta a la secretaria.",
-                      style: TextStyle(color: Colors.white54, fontSize: 12),
+                      style: TextStyle(color: AppTheme.textMutedOnDark, fontSize: 12),
                     ),
                 ],
               ),
@@ -129,7 +130,7 @@ class _WalletScreenState extends State<WalletScreen> {
             // recargar segun cuantas carreras quiere tener cubiertas.
             Container(
               padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(color: AppTheme.navySurface, borderRadius: BorderRadius.circular(12)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -147,7 +148,7 @@ class _WalletScreenState extends State<WalletScreen> {
             if (_transactions.isEmpty)
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12),
-                child: Text("Aun no hay movimientos.", style: TextStyle(color: Colors.white38, fontSize: 13)),
+                child: Text("Aun no hay movimientos.", style: TextStyle(color: AppTheme.textMutedOnDark, fontSize: 13)),
               ),
             ..._transactions.map((t) {
               final isRecharge = t["type"] == "recharge";
@@ -158,7 +159,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   children: [
                     Icon(
                       isRecharge ? Icons.add_circle_outline : Icons.remove_circle_outline,
-                      color: isRecharge ? Colors.greenAccent : Colors.redAccent,
+                      color: isRecharge ? AppTheme.successOnDark : AppTheme.dangerOnDark,
                       size: 20,
                     ),
                     const SizedBox(width: 10),
@@ -171,7 +172,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     Text(
                       "${amount >= 0 ? '+' : ''}\$${amount.toStringAsFixed(0)}",
                       style: TextStyle(
-                        color: isRecharge ? Colors.greenAccent : Colors.redAccent,
+                        color: isRecharge ? AppTheme.successOnDark : AppTheme.dangerOnDark,
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
                       ),
@@ -192,8 +193,8 @@ class _WalletScreenState extends State<WalletScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("\$${amount.toStringAsFixed(0)}", style: const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 14)),
-          Text("alcanza para $trips carreras", style: const TextStyle(color: Colors.white54, fontSize: 12)),
+          Text("\$${amount.toStringAsFixed(0)}", style: const TextStyle(color: AppTheme.yellow, fontWeight: FontWeight.bold, fontSize: 14)),
+          Text("alcanza para $trips carreras", style: const TextStyle(color: AppTheme.textMutedOnDark, fontSize: 12)),
         ],
       ),
     );
