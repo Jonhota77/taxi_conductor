@@ -13,6 +13,7 @@ import '../services/order_service.dart';
 import '../services/map_theme.dart';
 import '../services/wallet_service.dart';
 import '../services/background_task_handler.dart';
+import '../services/alert_service.dart';
 import '../services/update_service.dart';
 import '../widgets/update_dialog.dart';
 import 'documents_screen.dart';
@@ -71,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadWallet();
     _checkLocationEnabled();
     _checkForAppUpdate();
+    AlertService.instance.init();
   }
 
   /// Le recuerda al conductor activar el GPS del celular apenas abre la
@@ -221,7 +223,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (event == "new_trip_request" || event == "new_order_request") {
       // NUEVO: se agrega a la lista en vez de reemplazar la solicitud
       // anterior -- asi el conductor ve ambas si llegan casi juntas.
-      _playAlertSound();
+      _playAlertSound(
+        title: event == "new_order_request" ? "Nuevo pedido" : "Nueva solicitud de viaje",
+        body: "Abre la app para verla y responder.",
+      );
       setState(() => _incomingRequests.add(data));
       return;
     }
@@ -248,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Aviso enviado por la secretaría desde el panel de administración.
     if (event == "admin_broadcast") {
-      _playAlertSound();
+      _playAlertSound(title: "Aviso de Secretaría", body: (data["message"] ?? "").toString());
       _showAdminBroadcastDialog(data["message"] ?? "");
       return;
     }
@@ -271,8 +276,10 @@ class _HomeScreenState extends State<HomeScreen> {
   /// NUEVO: reproduce el sonido de notificacion/alarma que ya trae el
   /// celular -- no necesita ningun archivo de audio propio, y suena fuerte
   /// para que el conductor se de cuenta aunque este distraido.
-  void _playAlertSound() {
-    SystemSound.play(SystemSoundType.alert);
+  void _playAlertSound({String title = "Bipy Conductor", String body = "Tienes un aviso nuevo."}) {
+    // SystemSoundType.alert no suena en Android, por eso se usa una notificacion
+    // local de alta importancia (sonido + vibracion + aviso en pantalla).
+    AlertService.instance.notify(title: title, body: body);
     HapticFeedback.heavyImpact();
   }
 
