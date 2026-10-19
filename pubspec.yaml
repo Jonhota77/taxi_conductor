@@ -1,7 +1,7 @@
 name: taxi_conductor
 description: App de conductor para la plataforma de taxi propia.
 publish_to: 'none'
-version: 1.0.2+4
+version: 1.0.3+5
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -35,6 +35,7 @@ flutter:
   assets:
     - assets/images/logo_bipy.png
     - assets/icon/app_icon.png
+    - assets/marcadores/
   fonts:
     - family: Barlow
       fonts:

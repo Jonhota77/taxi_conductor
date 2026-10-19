@@ -492,16 +492,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (_currentPosition != null)
                     Marker(
                       point: _currentPosition!,
-                      width: 40,
-                      height: 40,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: AppTheme.navy,
-                          shape: BoxShape.circle,
-                          border: Border.fromBorderSide(BorderSide(color: Colors.white, width: 2)),
-                          boxShadow: [BoxShadow(color: Colors.black38, blurRadius: 6)],
-                        ),
-                        child: const Icon(Icons.directions_car, color: AppTheme.yellow, size: 22),
+                      width: 34,
+                      height: 50,
+                      // Conectado: carro azul (encendido). Desconectado: gris (estacionado).
+                      child: Image.asset(
+                        _isOnline ? 'assets/marcadores/carro_encendido.png' : 'assets/marcadores/carro_estacionado.png',
+                        width: 22,
+                        height: 44,
                       ),
                     ),
                   // NUEVO: un punto naranja por cada solicitud pendiente
